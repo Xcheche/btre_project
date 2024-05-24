@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>{% block title %}Btre Real Estate{% endblock %}</title>
+    {% comment %}
+    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
+    {% endcomment %}
+  </head>
+  <body>
+    <nav>
+      <li><a href="{% url 'pages:index' %}">Home</a></li>
+      <li><a href="{% url 'pages:about' %}">About</a></li>
+    </nav>
+    {% block content %}{% endblock %}
+  </body>
+</html>
