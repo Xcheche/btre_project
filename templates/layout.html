@@ -1,20 +1,33 @@
-<!DOCTYPE html>
 {% load static %}
+
+<!DOCTYPE html>
+
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
     <title>{% block title %}Btre Real Estate{% endblock %}</title>
-    {% comment %}
-    <link rel="stylesheet" href="{% static 'css/base.css' %}" />
-    {% endcomment %}
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="{% static 'css/all.css' %}" />
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}" />
+    <!-- Custom -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    {% comment %} lightbox {% endcomment %}
+    <link rel="stylesheet" href="{% static 'css/lightbox.min.css' %}" />
   </head>
   <body>
-    <nav>
-      <li><a href="{% url 'pages:index' %}">Home</a></li>
-      <li><a href="{% url 'pages:about' %}">About</a></li>
-    </nav>
-    {% block content %}{% endblock %}
+    <!-- Top Bar -->
+    {% include 'partials/_topbar.html' %}
+    <!-- Navbar -->
+    {% include 'partials/_navbar.html' %}
+    <!-- Main Content -->
+    {% block content %}{% endblock %} {% include 'partials/_footer.html' %}
+
+    <script src="{% static 'js/jquery-3.5.1.min.js' %} "></script>
+    <script src="{% static 'js/bootstrap.bundle.min.js' %} "></script>
+    <script src="{% static 'js/main.js' %} "></script>
+    <script src="{% static 'js/lightbox.min.js' %} "></script>
   </body>
 </html>
