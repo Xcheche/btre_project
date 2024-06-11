@@ -83,6 +83,7 @@ DATABASES = {
         "USER": "postgres",
         "PASSWORD": "199200",
         "HOST": "localhost",
+        "PORT": "5432",
     }
 }
 
