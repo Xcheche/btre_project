@@ -10,3 +10,4 @@ media
 venv
 /static
 /media
+/.vscode\launch.json
