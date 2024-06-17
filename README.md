@@ -7,7 +7,5 @@
 + Bootstrap
 + Django
 
-  - [] Video record
-- [x] Wash my clothes
   
 
