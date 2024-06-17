@@ -6,5 +6,8 @@
 + javascript
 + Bootstrap
 + Django
-  
-![photo](https://picsum.photos/200/300)
+|Name|Age|Country|Sex|Job_description|
+ |:----|:---|:-------|:---|:---|
+ |Chukwuebuka|32|Nigeria|Male|Backend Developer
+ |Chukwuebuka|32|Nigeria|Male|Backend Developer
+ |Chukwuebuka|32|Nigeria|Male|Backend Developer
