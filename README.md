@@ -1,3 +1,8 @@
 ##### Realestate Application
-Btre:
-: Realestate Application built with django
+
+# Btre
++ Html
++ Css
++ javascript
++ Bootstrap
++ Django
