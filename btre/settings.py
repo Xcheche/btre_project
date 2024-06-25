@@ -127,6 +127,10 @@ USE_I18N = True
 
 USE_TZ = True
 
+# Naira symbol
+
+NAIRA_SYMBOL = '\u20A6'
+
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
