@@ -1,5 +1,5 @@
 {% load static %}
-
+{% autoescape on %}
 <!DOCTYPE html>
 
 <html lang="en">
@@ -17,6 +17,7 @@
     {% comment %} lightbox {% endcomment %}
     <link rel="stylesheet" href="{% static 'css/lightbox.min.css' %}" />
   </head>
+
   <body>
     <!-- Top Bar -->
     {% include 'partials/_topbar.html' %}
@@ -34,3 +35,4 @@
     <script src="{% static 'js/lightbox.min.js' %} "></script>
   </body>
 </html>
+{% endautoescape %}
