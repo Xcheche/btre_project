@@ -25,10 +25,15 @@ from django.conf import settings
 urlpatterns = [
     path("", include("pages.urls", namespace="pages")),  # for pages app
     path(
+        "accounts/", include("accounts.urls", namespace="accounts")
+    ),  # for accounts app
+    path(
         "listings/", include("listings.urls", namespace="listings")
     ),  # for listings app
     path("admin/", admin.site.urls),  # for django admin
-] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+] + static(
+    settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
+)  # for media files
 
 # for debug toolbar
 

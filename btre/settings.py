@@ -34,6 +34,7 @@ INSTALLED_APPS = [
     "listings.apps.ListingsConfig",
     "realtors.apps.RealtorsConfig",
     "pages.apps.PagesConfig",
+    "accounts.apps.AccountsConfig",
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -41,7 +42,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
-     "debug_toolbar",
+    "debug_toolbar",
 ]
 
 INTERNAL_IPS = [
@@ -129,7 +130,7 @@ USE_TZ = True
 
 # Naira symbol
 
-NAIRA_SYMBOL = '\u20A6'
+NAIRA_SYMBOL = "\u20A6"
 
 
 # Static files (CSS, JavaScript, Images)

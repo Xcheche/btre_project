@@ -4,6 +4,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from .models import Listing
 from .choices import bedroom_choices, price_choices, state_choices
 
+
 # Create your views here.
 def index(request):
     listings = Listing.objects.order_by("-list_date").filter(is_published=True)
@@ -27,15 +28,13 @@ def search(request):
 
     # queryset_list = Listing.objects.order_by("-list_date")
     queryset_list = Listing.objects.all()
-       # Initialize state variable
+    # Initialize state variable
     state = None
     # Keywords
     if "keywords" in request.GET:
         keywords = request.GET["keywords"]
         if keywords:
-            queryset_list = queryset_list.filter(
-                description__icontains=keywords
-            )
+            queryset_list = queryset_list.filter(description__icontains=keywords)
 
     # City
     if "city" in request.GET:
@@ -61,16 +60,11 @@ def search(request):
         if price:
             queryset_list = queryset_list.filter(price__lte=price)
 
- 
-
-   
     context = {
- "bedroom_choices": bedroom_choices,
- "price_choices": price_choices,
- "state_choices": state_choices,
- "listings": queryset_list,
- "values": request.GET
-
-
+        "bedroom_choices": bedroom_choices,
+        "price_choices": price_choices,
+        "state_choices": state_choices,
+        "listings": queryset_list,
+        "values": request.GET,
     }
     return render(request, "listings/search.html", context)
