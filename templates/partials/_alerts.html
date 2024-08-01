@@ -1,12 +1,4 @@
-<!-- templates\partials\_alerts.html -->
-{% extends 'layout.html' %}
 
-{% load static %}
-
-
-{% block title %} | Alerts {% endblock %}
-
-{% block content %}
 
 {% if messages %}
   {% for message in messages %}
@@ -25,4 +17,3 @@
     </div>
   {% endfor %}
 {% endif %}
-{% endblock %}
