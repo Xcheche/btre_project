@@ -30,6 +30,8 @@ urlpatterns = [
     path(
         "listings/", include("listings.urls", namespace="listings")
     ),  # for listings app
+    # for contacts app
+    path("contacts/", include("contacts.urls")),
     path("admin/", admin.site.urls),  # for django admin
 ] + static(
     settings.MEDIA_URL, document_root=settings.MEDIA_ROOT

@@ -18,11 +18,13 @@ def index(request):
 
     return render(request, "listings/listings.html", {"listings": paged_listings})
 
+
 @login_required
 def listing(request, listing_id):
     listing = get_object_or_404(Listing, pk=listing_id)
     context = {"listing": listing}
     return render(request, "listings/listing.html", context)
+
 
 @login_required
 def search(request):
