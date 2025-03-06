@@ -1,6 +1,10 @@
+from datetime import datetime, timedelta
 from django.shortcuts import render, redirect
 from django.contrib import messages, auth
 from django.contrib.auth.models import User
+from django.core.mail import send_mail
+
+from btre import settings
 
 
 # Create your views here.
@@ -15,6 +19,7 @@ def register(request):
         password2 = request.POST["password2"]
 
         # Check if passwords match
+        
         if password == password2:
             # Check username
             if User.objects.filter(username=username).exists():
@@ -40,6 +45,13 @@ def register(request):
                     user.save()
                     messages.success(request, "You are now registered and can log in")
                     return redirect("accounts:login")
+                send_mail(
+                    'Welcome to BTRE RealEstate',
+                    'Thank you for registering with BTRE. We are glad to have you!',
+                    'from@example.com',
+                    [email],
+                    fail_silently=False,
+                )
         else:
             messages.error(request, "Passwords do not match")
             return redirect("accounts:register")
@@ -71,7 +83,10 @@ def logout(request):
     if request.method == "POST":
         auth.logout(request)
         messages.success(request, "You have been logged out")
-    return redirect("pages:index")
+       
+       
+    return redirect("accounts:login")
+
 
 
 def dashboard(request):

@@ -1,6 +1,6 @@
 #header {
   height: 50px;
-  background: #10284e;
+  background: #1a3d7c; /* Lighter shade of #10284e */
   color: #fff;
 }
 
@@ -10,23 +10,23 @@
 
 a:link,
 a:visited {
-  color:#10284e;
+  color: #1a3d7c; /* Lighter shade of #10284e */
 }
 
 div.breadcrumbs {
-  background: #30caa0;
-  color: #10284e;
+  background: #4debbf; /* Lighter shade of #30caa0 */
+  color: #1a3d7c; /* Lighter shade of #10284e */
 }
 
 div.breadcrumbs a {
-  color: #333;
+  color: #666666; /* Lighter shade of #333333 */
 }
 
 .module h2, .module caption, .inline-group h2 {
-  background: #30caa0;
+  background: #4debbf; /* Lighter shade of #30caa0 */
 }
 
 .button, input[type=submit], input[type=button], .submit-row input, a.button {
-  background: #10284e;
+  background: #1a3d7c; /* Lighter shade of #10284e */
   color: #fff;
 }

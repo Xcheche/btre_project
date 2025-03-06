@@ -11,11 +11,16 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+import environ
+
 from django.contrib.messages import constants as messages
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+env = environ.Env()
+env.read_env(os.path.join(BASE_DIR, ".env"))  # Explicitly point to .env file
 
 
 # Quick-start development settings - unsuitable for production
@@ -45,14 +50,15 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "django.contrib.humanize",
-    "debug_toolbar",
+
 ]
 
-INTERNAL_IPS = [
-    # ...
-    "127.0.0.1",
-    # ...
-]
+
+CRISPY_ALLOWED_TEMPLATE_PACKS = "bootstrap5", "bootstrap4"
+
+CRISPY_TEMPLATE_PACK = "bootstrap5"  # Set this as the default; you can switch to "bootstrap4" if needed.
+
+
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -62,7 +68,9 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
-    "debug_toolbar.middleware.DebugToolbarMiddleware",
+   
+   
+    
 ]
 
 ROOT_URLCONF = "btre.urls"
@@ -91,12 +99,8 @@ WSGI_APPLICATION = "btre.wsgi.application"
 
 DATABASES = {
     "default": {
-        "ENGINE": "django.db.backends.postgresql",
-        "NAME": "btredb",
-        "USER": "postgres",
-        "PASSWORD": "199200",
-        "HOST": "localhost",
-        "PORT": "5432",
+        "ENGINE": "django.db.backends.sqlite3",
+        "NAME": BASE_DIR / "db.sqlite3",
     }
 }
 
@@ -160,3 +164,26 @@ MESSAGE_TAGS = {
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+#Email settings
+
+EMAIL_BACKEND = "anymail.backends.resend.EmailBackend"
+ANYMAIL = {
+    "RESEND_API_KEY": env("RESEND_API_KEY", default=""),  # Provide a default
+}
+DEFAULT_FROM_EMAIL = env("DEFAULT_FROM_EMAIL", default="no-reply@example.com")
+
+
+
+# Set session expiry time (in seconds)
+SESSION_COOKIE_AGE = 120  # 2 minutes
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Logout when the browser is closed
+
+
+
+
+
+
+LOGIN_REDIRECT_URL = "accounts:login"  # Change this to your actual login URL name
+LOGOUT_REDIRECT_URL = "accounts:login"  # Change this to your actual logout URL name

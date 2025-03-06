@@ -24,23 +24,12 @@ from django.conf import settings
 # global urls
 urlpatterns = [
     path("", include("pages.urls", namespace="pages")),  # for pages app
-    path(
-        "accounts/", include("accounts.urls", namespace="accounts")
-    ),  # for accounts app
-    path(
-        "listings/", include("listings.urls", namespace="listings")
-    ),  # for listings app
-    # for contacts app
-    path("contacts/", include("contacts.urls")),
+    path("accounts/", include("accounts.urls", namespace="accounts")),  # for accounts app
+    path("listings/", include("listings.urls", namespace="listings")),  # for listings app
+    path("contacts/", include("contacts.urls")),  # for contacts app
     path("admin/", admin.site.urls),  # for django admin
-] + static(
-    settings.MEDIA_URL, document_root=settings.MEDIA_ROOT
-)  # for media files
+    path("accounts/", include("django.contrib.auth.urls")),  # for django auth
+    
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)  # for media files
 
-# for debug toolbar
 
-if settings.DEBUG:
-    urlpatterns = [
-        *urlpatterns,
-        path("__debug__/", include("debug_toolbar.urls")),
-    ]
