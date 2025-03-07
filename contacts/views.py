@@ -8,31 +8,28 @@ from btre import settings
 from listings.models import Listing
 from .models import Contact
 
+
+
+
+
 def contact(request):
     if request.method == "POST":
-        # Extract form data from POST request
         listing_id = request.POST["listing_id"]
-        listing = request.POST["listing"]
         name = request.POST["name"]
         email = request.POST["email"]
         phone = request.POST["phone"]
         message = request.POST["message"]
-        user_id = request.POST.get("user_id", None)  # Default to None if not provided
-
-        # Get the realtor's email dynamically
+        user_id = request.user.id if request.user.is_authenticated else 0  # Default to 0
+        
         listing = get_object_or_404(Listing, id=listing_id)
         realtor_email = listing.realtor.email
 
-        # Check if the user has already inquired about this listing
-        existing_inquiry = Contact.objects.filter(listing_id=listing_id, email=email).exists()
-
-        if existing_inquiry:
+        if Contact.objects.filter(listing_id=listing_id, email=email).exists():
             messages.error(request, "You have already made an inquiry for this listing.")
-            return redirect(reverse("listings:listing", args=[listing_id]))  # Redirect back to the listing
+            return redirect(reverse("listings:listing", args=[listing_id]))
 
-        # Create a new Contact instance with the form data
         new_contact = Contact(
-            listing=listing,
+            listing=listing.title,  # ✅ Store as string
             listing_id=listing_id,
             name=name,
             email=email,
@@ -40,31 +37,24 @@ def contact(request):
             message=message,
             user_id=user_id,
         )
-        try:
-            # Save the new contact to the database
-            new_contact.save()
-            # Display success message to the user
-            messages.success(
-                request,
-                "Your request has been submitted, a realtor will get back to you soon!",
-            )
 
-            # Send email notification to Realtor
+        try:
+            new_contact.save()
+
             send_mail(
                 subject="New Property Inquiry",
-                message=f"New inquiry for {listing}.\n\nDetails:\nName: {name}\nEmail: {email}\nPhone: {phone}\nMessage: {message}\n\nSign into the admin panel for more info.",
+                message=f"New inquiry for {listing.title}.\n\nDetails:\nName: {name}\nEmail: {email}\nPhone: {phone}\nMessage: {message}\n\nSign into the admin panel for more info.",
                 from_email=settings.DEFAULT_FROM_EMAIL,
-                recipient_list=[realtor_email],  # Only realtor gets this email
+                recipient_list=[realtor_email],
                 fail_silently=False,
             )
 
-            # Styled Email for Customer Only
             user_email_template = f"""
             <div style="max-width: 600px; margin: auto; padding: 20px; 
                         font-family: Arial, sans-serif; border: 1px solid #ddd; border-radius: 8px;">
                 <h2 class="text-success text-center" style="color: #28a745;">Thank You for Your Inquiry!</h2>
                 <p>Dear {name},</p>
-                <p>Thank you for inquiring about <strong>{listing}</strong>. A realtor will get back to you soon!</p>
+                <p>Thank you for inquiring about <strong>{listing.title}</strong>. A realtor will get back to you soon!</p>
                 <div style="background-color: #f8f9fa; padding: 15px; border-left: 4px solid #28a745;">
                     <p><strong>Your Message:</strong></p>
                     <p>{message}</p>
@@ -85,13 +75,11 @@ def contact(request):
             email_user.send()
 
             messages.success(request, "Your request has been submitted, a realtor will get back to you soon!")
-
-            # Redirect to the listing page
             return redirect(reverse("listings:listing", args=[listing_id]))
-        except Exception as e:
-            # Log the exception and display error message if saving fails
-            print(f"Error: {e}")
-            messages.error(request, "Error sending request")
 
-    # Render the listing page if the request method is not POST
+        except Exception as e:
+            import traceback
+            print(traceback.format_exc())  # Logs full error
+            messages.error(request, f"Error sending request: {e}")
+
     return render(request, "listings/listing.html")

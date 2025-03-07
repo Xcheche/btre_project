@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail
 
 from btre import settings
+from contacts.models import Contact
 
 
 # Create your views here.
@@ -90,4 +91,9 @@ def logout(request):
 
 
 def dashboard(request):
+    inquiries = Contact.objects.filter(user_id=request.user.id).order_by("-contact_date")
+    print(inquiries) 
+    context = {
+        "inquiries": inquiries,
+    }
     return render(request, "accounts/dashboard.html")

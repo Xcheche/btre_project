@@ -41,27 +41,28 @@
             <p>Here are the property listings that you have inquired about</p>
             <table class="table">
               <thead>
-                <tr>
-                  <th scope="col">#</th>
-                  <th scope="col">Property</th>
-                  <th></th>
-                </tr>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Property</th>
+                <th></th>
+              </tr>
               </thead>
               <tbody>
-            
-                  <tr>
-                    <td></td>
-                    <td></td>
-                    <td>
-                      <a class="btn btn-light" href="{% url 'listings:listings' %}">View Listing</a>
-                    </td>
-                  </tr>
-                
+              {% for inquiry in inquiries %}
+                <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ inquiry.listing.title }}</td>
+                <td>
+                  <a class="btn btn-light" href="{% url 'listings:listing' inquiry.listing.id %}">View Listing</a>
+                </td>
+                </tr>
+              {% empty %}
+                <tr>
+                <td colspan="3">You have not made any inquiries</td>
+                </tr>
+              {% endfor %}
               </tbody>
             </table>
-          
-            <p>You have not made any inquiries</p>
-          
         </div>
       </div>
     </div>
