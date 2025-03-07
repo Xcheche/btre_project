@@ -1,5 +1,6 @@
 <!-- Navbar -->
 {% load static %}
+   
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
   <div class="container">
     <a class="navbar-brand" href="{% url 'pages:index' %}">
@@ -39,6 +40,7 @@
         </li>
       </ul>
 
+     
       <ul class="navbar-nav ml-auto">
         {% if user.is_authenticated %}
   <li 
@@ -87,3 +89,4 @@
     </div>
   </div>
 </nav>
+

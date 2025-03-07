@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     "realtors.apps.RealtorsConfig",
     "pages.apps.PagesConfig",
     "accounts.apps.AccountsConfig",
+
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -92,6 +93,7 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = "btre.wsgi.application"
+
 
 
 # Database
@@ -187,3 +189,7 @@ SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Logout when the browser is closed
 
 LOGIN_REDIRECT_URL = "accounts:login"  # Change this to your actual login URL name
 LOGOUT_REDIRECT_URL = "accounts:login"  # Change this to your actual logout URL name
+
+
+
+
