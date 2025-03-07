@@ -27,6 +27,7 @@ urlpatterns = [
     path("accounts/", include("accounts.urls", namespace="accounts")),  # for accounts app
     path("listings/", include("listings.urls", namespace="listings")),  # for listings app
     path("contacts/", include("contacts.urls")),  # for contacts app
+    path("notification/", include("notification.urls")),  # for notification app
     path("admin/", admin.site.urls),  # for django admin
     path("accounts/", include("django.contrib.auth.urls")),  # for django auth
     

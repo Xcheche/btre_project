@@ -1,6 +1,45 @@
 <!-- Navbar -->
 {% load static %}
-   
+
+<style>
+        #notification-bell {
+            font-size: 24px;
+            cursor: pointer;
+            position: relative;
+            display: inline-block;
+        }
+        #notification-count {
+            background: red;
+            color: white;
+            font-size: 12px;
+            padding: 3px 7px;
+            border-radius: 50%;
+            position: absolute;
+            top: -10px;
+            right: -10px;
+        }
+        #notification-dropdown {
+            position: absolute;
+            background: white;
+            border: 1px solid #ddd;
+            list-style: none;
+            padding: 10px;
+            display: none;
+            width: 250px;
+        }
+        #notification-dropdown li {
+            padding: 5px;
+            border-bottom: 1px solid #eee;
+        }
+        #notification-dropdown li a {
+            text-decoration: none;
+            color: black;
+            display: block;
+        }
+        .no-notifications {
+            color: gray;
+        }
+    </style>
 <nav class="navbar navbar-expand-lg navbar-dark bg-primary sticky-top">
   <div class="container">
     <a class="navbar-brand" href="{% url 'pages:index' %}">
@@ -39,7 +78,12 @@
           <a class="nav-link" href="{% url 'listings:listings' %}">Featured Listings</a>
         </li>
       </ul>
-
+<!--Notify-->
+  <div id="notification-bell" onclick="$('#notification-dropdown').toggle();">
+        🔔 <span id="notification-count">0</span>
+        <ul id="notification-dropdown"></ul>
+    </div>
+<!--Notify-->
      
       <ul class="navbar-nav ml-auto">
         {% if user.is_authenticated %}
@@ -90,3 +134,45 @@
   </div>
 </nav>
 
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ <script>
+        function fetchNotifications() {
+            $.ajax({
+                url: "{% url 'get-notifications' %}",
+                type: "GET",
+                success: function(data) {
+                    $("#notification-count").text(data.count);
+                    let dropdown = $("#notification-dropdown");
+                    dropdown.empty();
+                    if (data.notifications.length === 0) {
+                        dropdown.append("<li class='no-notifications'>No new notifications</li>");
+                    } else {
+                        data.notifications.forEach(n => {
+                            let type = n.type === "personal" ? "Personal" : "General";
+                            dropdown.append(
+                                `<li><a href="${n.link}" onclick="markAsRead(${n.id}, '${n.type}')">
+                                    ${n.message} (${type}) - ${n.created_at}
+                                </a></li>`
+                            );
+                        });
+                    }
+                }
+            });
+        }
+
+        function markAsRead(notificationId, notificationType) {
+            $.ajax({
+                url: `/mark-as-read/${notificationId}/${notificationType}/`,
+                type: "POST",
+                headers: {"X-CSRFToken": "{{ csrf_token }}"},
+                success: function() {
+                    fetchNotifications();
+                }
+            });
+        }
+
+        $(document).ready(function() {
+            fetchNotifications();
+            setInterval(fetchNotifications, 5000);
+        });
+    </script>
